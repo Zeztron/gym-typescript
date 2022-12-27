@@ -15,6 +15,7 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
   const flexBetween = "flex items-center justify-between";
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
+  const pages: string[] = ["Home", "Benefits", "Our Classes", "Contact Us"];
 
   return (
     <nav>
@@ -25,26 +26,14 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 text-sm`}>
-                  <Link
-                    page="Home"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="Benefits"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="Our Classes"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="Contact Us"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
+                  {pages.map((page: string) => (
+                    <Link
+                      key={page}
+                      page={page}
+                      selectedPage={selectedPage}
+                      setSelectedPage={setSelectedPage}
+                    />
+                  ))}
                 </div>
                 <div className={`${flexBetween} gap-8`}>
                   <p>Sign In</p>
@@ -64,6 +53,29 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
           </div>
         </div>
       </div>
+      {/* Mobile menu modal */}
+      {!isAboveMediumScreens && menuToggle && (
+        <div className="buttom-0 fixed right-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl">
+          {/* Close Icon */}
+          <div className="flex justify-end p-12">
+            <button onClick={() => setMenuToggle(!menuToggle)}>
+              <XMarkIcon className="h-6 w-6 text-gray-400" />
+            </button>
+          </div>
+          {/* Menu Items */}
+          <div className="ml-[33%] flex flex-col gap-10 text-2xl">
+            {pages.map((page: string) => (
+              <Link
+                key={page}
+                page={page}
+                selectedPage={selectedPage}
+                setSelectedPage={setSelectedPage}
+              />
+            ))}
+            7
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
